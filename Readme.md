@@ -19,7 +19,7 @@ mpi_head:
   ports: 
    - "22"
   links: 
-   - mpi_worker
+   - mpi_node
 
 mpi_node: 
   image: openmpi
@@ -37,25 +37,26 @@ The following command will start one `mpi_head` container and three `mpi_node` c
 $> docker-compose up -d
 $> docker-compose scale mpi_node=16 mpi_head=1
 ```
-Once all containers are running, figure out the host port on which Docker exposes the  SSH server of the  `mpi_head` container: 
+And to /etc/hosts file compiled from docker-compose automagically
 
 ```
-$> docker-compose ps
+$> docker-compose stop mpi_head
+$> yes | docker-compose rm -v mpi_head
+$> docker-compose up -d
 ```
+Once all containers are running, connect to mpi_head with:
 
-Now you know the port, you can login to the `mpi_head` container. The username is `tutorial`:
 
-
- ```
- $> chmod 400 ssh/id_rsa.mpi
- $> ssh -i ssh/id_rsa.mpi -p 23227 tutorial@localhost
- ```
+```
+$> chmod 400 ssh/id_rsa.mpi
+$> ssh -i ssh/id_rsa.mpi -p $( source echo_head_port.sh ) tutorial@192.168.99.100
+```
 
 For testing an mpi4py example using the mpi_nodes:
 	
 	cd mpi4py_benchmarks
-	create machines file from /etc/hosts (copy only the IP adresses, nothing else)
-	mpiexec -hostfile machines -n 3 python helloworld.py   	
+	cat /etc/hosts | grep mpi_node --color=none | awk '{print $1}' | sort -u > machines && cat ./machines
+	mpiexec -hostfile machines -n 16 python helloworld.py   	
 
 For testing dispel4py with mpi mapping:
      
