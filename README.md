@@ -18,7 +18,7 @@ The following command will start one `mpihead` container and four `mpinode` cont
 $> make NUMBER_OF_NODES=4 up
 ```
 
-Once all containers are running, connect to mpihead with:
+Once all containers are running, connect to `mpihead` with:
 
 ```
 $> make connect
