@@ -30,6 +30,10 @@ To shut down the containers, use:
 $> make down
 ```
 
+## Disclaimer
+
+This repository was built for didactic purposes only.
+
 ## Credits
 
 This repository draws from work on https://github.com/dispel4py/docker.openmpi by O. Weidner and R. Filgueira.
