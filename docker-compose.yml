@@ -1,10 +1,11 @@
-mpi_head:
-  image: dispel4py/docker.openmpi
+mpihead:
+  image: mpi
   ports: 
    - "22"
   links: 
-   - mpi_node
+   - mpinode
+  volumes:
+   - ./code:/home/mpi/code
 
-mpi_node: 
-  image: dispel4py/docker.openmpi
-
+mpinode: 
+  image: mpi
